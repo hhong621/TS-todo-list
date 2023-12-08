@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@keyframes slideInFromTop {
+    0% {
+      transform: translateY(-20%);
+      opacity: 0%;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 100%;
+    }
+}
+
+* {
+    font-family: 'Inter', sans-serif;
+    color: #555555;
+}
+
+#container {
+    margin: 48px auto;
+    width: 50%;
+}
+
+input[type=text] {
+    width: 300px;
+    margin-top: 8px;
+    padding: 8px;
+    border: 1px solid #b4b4b4;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+::placeholder {
+    color: #A9A9A9;
+}
+
+button[type=submit] {
+    padding: 8px 16px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: inset 0px -2px 0px 0px #ededed;
+}
+
+button[type=submit]:hover {
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+button[type=submit]:active {
+    border: 1px solid #f8f8f8;
+    box-shadow: inset 0px 2px 1px 1px #dfdfdf;
+}
+
+#list {
+    list-style: none;
+    padding: 0;
+    margin-top: 24px;
+}
+
+li {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 8px 0;
+    border-radius: 4px;
+    animation: 0.25s ease-out 0s slideInFromTop;
+}
+
+li:hover {
+    background-color: #f4f4f4;
+}
+
+input[type=checkbox] {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #A9A9A9;
+}
+
+.remove {
+    color: #A9A9A9;
+    float: right;
+    cursor: pointer;
+}
