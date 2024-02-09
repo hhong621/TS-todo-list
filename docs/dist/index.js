@@ -10,7 +10,6 @@ createList();
 function createList() {
   tasks.forEach(addListItem);
   tasks.forEach(checkCompleted);
-  addDragEventListeners();
 }
 function dragStart() {
   dragStartIndex = $(this.closest("li")).index();
@@ -110,6 +109,7 @@ function addListItem(task) {
   item.append(label, removeBtn);
   list?.append(item);
   saveTasks();
+  addDragEventListeners();
 }
 function saveTasks() {
   localStorage.setItem("TASKS", JSON.stringify(tasks));
