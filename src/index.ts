@@ -1,3 +1,14 @@
+/*
+TS Todo List
+
+Known issues:
+
+Upcoming features:
+- Star to favorite
+- Task groups
+
+*/
+
 import { v4 as uuidV4 } from "uuid"
 import $ from "jquery";
 
@@ -19,7 +30,6 @@ createList()
 function createList() {
   tasks.forEach(addListItem)
   tasks.forEach(checkCompleted)
-  addDragEventListeners()
 }
 
 function dragStart(this: any) {
@@ -144,6 +154,7 @@ function addListItem(task: Task) {
   item.append(label, removeBtn)
   list?.append(item)
   saveTasks()
+  addDragEventListeners()
 }
 
 function saveTasks() {
