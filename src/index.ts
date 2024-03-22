@@ -1,13 +1,13 @@
-/*
-TS Todo List
-
-Known issues:
-
-Upcoming features:
-- Star to favorite
-- Task groups
-
-*/
+/**
+ * TS Todo List
+ * 
+ * Known issues:
+ * 
+ * Upcoming features:
+ * - Group tasks
+ * - Icons on hover
+ * 
+ */
 
 import { v4 as uuidV4 } from "uuid"
 import $ from "jquery";
@@ -17,10 +17,12 @@ type Task = {
   title: string
   completed: boolean
   createdAt: Date
+  favorite: boolean
 }
 
 const list = document.querySelector<HTMLUListElement>("#list")
 const form = document.getElementById("new-task-form") as HTMLFormElement | null
+const filters = document.getElementById("filters") as HTMLSelectElement | null
 const input = document.querySelector<HTMLInputElement>("#new-task-title")
 const tasks: Task[] = loadTasks()
 let dragStartIndex: number
@@ -30,7 +32,12 @@ createList()
 function createList() {
   tasks.forEach(addListItem)
   tasks.forEach(checkCompleted)
+  tasks.forEach(checkFavorite)
 }
+
+/**
+ * Drag and drop functions
+ */
 
 function dragStart(this: any) {
   //console.log("Event: ", "dragstart")
@@ -111,6 +118,10 @@ function addDragEventListeners() {
   })
 }
 
+/**
+ * General helper functions
+ */
+
 form?.addEventListener("submit", e => {
   e.preventDefault()
 
@@ -121,6 +132,7 @@ form?.addEventListener("submit", e => {
     title: input.value,
     completed: false,
     createdAt: new Date(),
+    favorite: false,
   }
   tasks.push(newTask)
 
@@ -128,11 +140,38 @@ form?.addEventListener("submit", e => {
   input.value = ""
 })
 
+filters?.addEventListener("change", filterBy)
+function filterBy() {
+  const selectValue = filters?.value
+  console.log(selectValue)
+
+  if(selectValue == "all") {
+    tasks.forEach(filterAll)
+  } else if (selectValue == "favorites") {
+    tasks.forEach(filterFav)
+  }
+}
+
+function filterFav(task: Task) {
+  const id:string = task.id
+  const item = document.getElementById(id)?.parentElement as HTMLUListElement
+  if(!task.favorite) {
+    item.classList.add("hidden")
+  }
+}
+
+function filterAll(task: Task) {
+  const id:string = task.id
+  const item = document.getElementById(id)?.parentElement as HTMLUListElement
+  item.classList.remove("hidden")
+}
+
 function addListItem(task: Task) {
   const item = document.createElement("li")
   const label = document.createElement("label")
   const checkbox = document.createElement("input")
   const removeBtn = document.createElement("span")
+  const star = document.createElement("span")
   item.setAttribute("draggable", "true")  
   item.classList.add("draggable")
   checkbox.addEventListener("change", () => {
@@ -149,9 +188,14 @@ function addListItem(task: Task) {
   removeBtn.addEventListener("click", () => {
     removeTask(task)
   })
+  star.classList.add("material-symbols-outlined", "star")
+  star.innerHTML = "star"
+  star.addEventListener("click", () => {
+    favoriteTask(task)
+  })
   label.id = task.id
   label.append(checkbox, task.title)
-  item.append(label, removeBtn)
+  item.append(label, removeBtn, star)
   list?.append(item)
   saveTasks()
   addDragEventListeners()
@@ -188,4 +232,27 @@ function removeTask(task: Task) {
   saveTasks()
   //console.log(tasks)
   location.reload()
+}
+
+function favoriteTask(task: Task) {
+  const id:string = task.id
+  const label = document.getElementById(id) as HTMLLabelElement
+  if (task.favorite) {
+    task.favorite = false
+    label.classList.remove("favorite")
+  } else {
+    task.favorite = true
+    label.classList.add("favorite")
+  }
+  saveTasks()
+}
+
+function checkFavorite(task: Task) {
+  const id:string = task.id
+  const label = document.getElementById(id) as HTMLLabelElement
+  if (task.favorite) {
+    label.classList.add("favorite")
+  } else {
+    label.classList.remove("favorite")
+  }
 }

@@ -2,6 +2,7 @@ import {v4 as uuidV4} from "../_snowpack/pkg/uuid.js";
 import $ from "../_snowpack/pkg/jquery.js";
 const list = document.querySelector("#list");
 const form = document.getElementById("new-task-form");
+const filters = document.getElementById("filters");
 const input = document.querySelector("#new-task-title");
 const tasks = loadTasks();
 let dragStartIndex;
@@ -10,6 +11,7 @@ createList();
 function createList() {
   tasks.forEach(addListItem);
   tasks.forEach(checkCompleted);
+  tasks.forEach(checkFavorite);
 }
 function dragStart() {
   dragStartIndex = $(this.closest("li")).index();
@@ -79,17 +81,41 @@ form?.addEventListener("submit", (e) => {
     id: uuidV4(),
     title: input.value,
     completed: false,
-    createdAt: new Date()
+    createdAt: new Date(),
+    favorite: false
   };
   tasks.push(newTask);
   addListItem(newTask);
   input.value = "";
 });
+filters?.addEventListener("change", filterBy);
+function filterBy() {
+  const selectValue = filters?.value;
+  console.log(selectValue);
+  if (selectValue == "all") {
+    tasks.forEach(filterAll);
+  } else if (selectValue == "favorites") {
+    tasks.forEach(filterFav);
+  }
+}
+function filterFav(task) {
+  const id = task.id;
+  const item = document.getElementById(id)?.parentElement;
+  if (!task.favorite) {
+    item.classList.add("hidden");
+  }
+}
+function filterAll(task) {
+  const id = task.id;
+  const item = document.getElementById(id)?.parentElement;
+  item.classList.remove("hidden");
+}
 function addListItem(task) {
   const item = document.createElement("li");
   const label = document.createElement("label");
   const checkbox = document.createElement("input");
   const removeBtn = document.createElement("span");
+  const star = document.createElement("span");
   item.setAttribute("draggable", "true");
   item.classList.add("draggable");
   checkbox.addEventListener("change", () => {
@@ -104,9 +130,14 @@ function addListItem(task) {
   removeBtn.addEventListener("click", () => {
     removeTask(task);
   });
+  star.classList.add("material-symbols-outlined", "star");
+  star.innerHTML = "star";
+  star.addEventListener("click", () => {
+    favoriteTask(task);
+  });
   label.id = task.id;
   label.append(checkbox, task.title);
-  item.append(label, removeBtn);
+  item.append(label, removeBtn, star);
   list?.append(item);
   saveTasks();
   addDragEventListeners();
@@ -138,4 +169,25 @@ function removeTask(task) {
   });
   saveTasks();
   location.reload();
+}
+function favoriteTask(task) {
+  const id = task.id;
+  const label = document.getElementById(id);
+  if (task.favorite) {
+    task.favorite = false;
+    label.classList.remove("favorite");
+  } else {
+    task.favorite = true;
+    label.classList.add("favorite");
+  }
+  saveTasks();
+}
+function checkFavorite(task) {
+  const id = task.id;
+  const label = document.getElementById(id);
+  if (task.favorite) {
+    label.classList.add("favorite");
+  } else {
+    label.classList.remove("favorite");
+  }
 }

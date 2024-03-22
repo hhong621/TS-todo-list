@@ -21,8 +21,13 @@
     width: 500px;
 }
 
+#forms {
+    display: grid;
+    grid-template-columns: auto 128px;
+}
+
 input[type=text] {
-    width: 300px;
+    width: 250px;
     margin-top: 8px;
     padding: 8px;
     border: 1px solid #b4b4b4;
@@ -32,6 +37,34 @@ input[type=text] {
 
 ::placeholder {
     color: #A9A9A9;
+}
+
+.custom-select {
+    position: relative;
+}
+
+select {
+    appearance: none;
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    border: 1px solid #b4b4b4;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: #555555;
+    background: white;
+}
+
+.select-icon {
+    position: absolute;
+    right: 8px;
+    top: 62%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
 }
 
 button[type=submit] {
@@ -86,6 +119,19 @@ input[type=checkbox] {
     color: #A9A9A9;
     float: right;
     cursor: pointer;
+    padding-left: 8px;
+}
+
+.star {
+    color: #A9A9A9;
+    float: right;
+    cursor: pointer;
+}
+
+.favorite ~ .star {
+    font-variation-settings: 
+        'FILL' 1;
+    color: #ffcd17;
 }
 
 .draggable {
@@ -100,4 +146,8 @@ input[type=checkbox] {
     height: 36px;
     border-radius: 4px;
     cursor: default;
+}
+
+.hidden {
+    display: none;
 }

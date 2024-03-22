@@ -3,21 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="dist/index.js" type="module"></script>
   <title>TS Todo List</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <script src="dist/index.js" type="module"></script>
 </head>
 <body>
   <div id="container">
     <h1>Your Tasks</h1>
-    <form id="new-task-form">
-      <label for="new-task-title">Add a task</label>
-      <div class="field">
-        <input type="text" id="new-task-title" placeholder="Hmmm..." autocomplete="off">
-        <button type="submit">Add</button>
-      </div>
-    </form>
+    <div id="forms">
+      <form id="new-task-form">
+        <label for="new-task-title">Add a task</label>
+        <div class="field">
+          <input type="text" id="new-task-title" placeholder="Hmmm..." autocomplete="off">
+          <button type="submit">Add</button>
+        </div>
+      </form>
+      <form id="filter-form">
+        <label for="filters">Filter by</label>
+        <div class="field custom-select">
+          <select name="filters" id="filters">
+            <option value="all">All</option>
+            <option value="favorites">Favorites</option>
+          </select>
+          <div class="select-icon">
+            <span class="material-symbols-outlined">
+              expand_more
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+    
     <ul id="list"></ul>
     <div id="trailing" draggable="true" class="draggable"></div>
   </div>
