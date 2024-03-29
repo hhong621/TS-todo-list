@@ -149,13 +149,36 @@ function filterBy() {
     tasks.forEach(filterAll)
   } else if (selectValue == "favorites") {
     tasks.forEach(filterFav)
+  } else if (selectValue == "completed") {
+    tasks.forEach(filterCompleted)
+  } else if (selectValue == "incomplete") {
+    tasks.forEach(filterIncomplete)
   }
 }
 
 function filterFav(task: Task) {
   const id:string = task.id
   const item = document.getElementById(id)?.parentElement as HTMLUListElement
+  item.classList.remove("hidden")
   if(!task.favorite) {
+    item.classList.add("hidden")
+  }
+}
+
+function filterCompleted(task: Task) {
+  const id:string = task.id
+  const item = document.getElementById(id)?.parentElement as HTMLUListElement
+  item.classList.remove("hidden")
+  if(!task.completed) {
+    item.classList.add("hidden")
+  }
+}
+
+function filterIncomplete(task: Task) {
+  const id:string = task.id
+  const item = document.getElementById(id)?.parentElement as HTMLUListElement
+  item.classList.remove("hidden")
+  if(task.completed) {
     item.classList.add("hidden")
   }
 }
