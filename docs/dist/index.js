@@ -168,7 +168,8 @@ function removeTask(task) {
     }
   });
   saveTasks();
-  location.reload();
+  $("#list").empty();
+  createList();
 }
 function favoriteTask(task) {
   const id = task.id;

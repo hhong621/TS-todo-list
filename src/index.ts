@@ -230,8 +230,9 @@ function removeTask(task: Task) {
     }
   })
   saveTasks()
-  //console.log(tasks)
-  location.reload()
+  
+  $("#list").empty();
+  createList()
 }
 
 function favoriteTask(task: Task) {
